@@ -30,9 +30,8 @@ class XiideaEasyImgProxyExtension extends Extension
         // Build and register presets
         $registry = $container->getDefinition(PresetRegistry::class);
         foreach ($config['presets'] ?? [] as $presetName => $presetConfig) {
-            $preset = new Preset(
-                $presetConfig['options'] ?? [],
-                $presetConfig['extension'] ?? null
+            $preset = new \Symfony\Component\DependencyInjection\Definition(
+                Preset::class, [$presetConfig['options'] ?? [], $presetConfig['extension'] ?? null]
             );
             $registry->addMethodCall('register', [$presetName, $preset]);
         }
